@@ -1,3 +1,21 @@
 body{
-    background-color: white;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+#car-list{
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr 2fr;
+    background-color: aqua;
+    text-align: center;
+    font-size: 1.2em;
+    border: 1px solid black;
+}
+
+
+p:hover{
+    color: chartreuse;
+    cursor: pointer;
 }

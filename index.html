@@ -6,12 +6,23 @@
         <title>Car | Home |</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="style.css">
+        <script src="https://kit.fontawesome.com/fd19a96ad8.js" crossorigin="anonymous"></script>
     </head>
     <body>
-        <input type="text" id="search-bar" placeholder="Search...">
-        <div id="car-list"></div>
-        <div id="model-list"></div>
-        <div id="car-display-list"></div>
+        <div class="container">
+            <nav>
+                <div id="main-navbar">
+                    <img src="/images/carDBlogo.png" alt="logo" id="logo">
+                    <div>
+                        <input type="text" id="search-bar" placeholder="Search..." onkeyup="searchMake()">
+                        <button onclick="test()">search</button>
+                    </div>
+                </div>
+            </nav>
+            <div id="car-list"></div>
+            <div id="model-list"></div>
+            <div id="car-display-list"></div>
+        </div>
         <script src="main.js"></script>
     </body>
 </html>

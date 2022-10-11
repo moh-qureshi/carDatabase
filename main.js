@@ -3,6 +3,9 @@ const modelList = document.getElementById("model-list")
 const displayList = document.getElementById("car-display-list")
 const searchBar = document.getElementById("search-bar")
 let allMakes = []
+
+window.addEventListener("load", loadMakes())
+function loadMakes(){
 fetch('https://cardatabaseinfo.herokuapp.com/vehicles')
     .then(res => res.json())
     
@@ -35,13 +38,17 @@ fetch('https://cardatabaseinfo.herokuapp.com/vehicles')
             })
             carMakeDivs.addEventListener("click", () =>{
                 carList.style.display = "none"
+                modelList.style.display = "grid"
                 carText.innerText = carText.innerText.replace(" ", "_")
                 const selectedMake = carText.innerText.toLowerCase()
                 displayModelsFunc(selectedMake)
+                searchBar.value=""
+                searchBar.removeAttribute("onkeyup")
+                searchBar.setAttribute("onkeyup", "searchModel()")
             })
         }
     })
-    
+}
     function displayModelsFunc(make){
     fetch('https://cardatabaseinfo.herokuapp.com/vehicles/'+ make)
     .then(res => res.json())
@@ -56,12 +63,11 @@ fetch('https://cardatabaseinfo.herokuapp.com/vehicles')
                 carModelDivs.appendChild(carModelThumbnail).setAttribute("class", "model-thumbnail")
                 carModelThumbnail.appendChild(thumbnailImage)
                 carModelDivs.appendChild(thumbnailText).setAttribute("class", "thumbnail-text")
-                allModels[i].name.replace("_", " ")
-                thumbnailText.innerText = `${make} ${allModels[i].name}`.replace("_", " ").toUpperCase()
-                thumbnailText.innerText = thumbnailText.innerText.replace("_", " ")
+                thumbnailText.innerText = `${make} ${allModels[i].name}`.replace(/_/g, " ").toUpperCase()
                 thumbnailImage.src = allModels[i].car_img[0]    
                 carModelDivs.addEventListener("click", () =>{
                     modelList.style.display = "none"
+                    displayList.style.display = "flex"
                     const selectedModel = allModels[i].name
                     displayScreenFunc(make,selectedModel)
                 })
@@ -75,7 +81,6 @@ fetch('https://cardatabaseinfo.herokuapp.com/vehicles')
         .then(data =>{
             const modelData = data.model[0].model
             const displayTitleText = document.createElement("p")
-            
             displayList.appendChild(document.createElement("div")).setAttribute("id", "feature-screen")
             const featureScreen = document.getElementById("feature-screen")
             featureScreen.appendChild(document.createElement("ul")).setAttribute("id", "features-list")
@@ -111,6 +116,24 @@ fetch('https://cardatabaseinfo.herokuapp.com/vehicles')
             document.querySelector(".main-display").appendChild(document.createElement("img"))
             document.querySelector(".main-display").querySelector("img").src = modelData.car_img[0]
             
+            displayScreen.appendChild(document.createElement("div")).setAttribute("id", "car-info-screen")
+            const carInfoScreen = document.getElementById("car-info-screen")
+            carInfoScreen.appendChild(document.createElement("ul")).setAttribute("id", "car-info-list")
+            for(let i = 0; i < 4; i++){
+                document.getElementById("car-info-list").appendChild(document.createElement("div"))[i]
+            }
+            for(let i = 0; i < carInfoScreen.querySelectorAll("div").length; i++){
+                carInfoScreen.querySelectorAll("div")[i].appendChild(document.createElement("i")).setAttribute("class", "car-info-icon")
+                carInfoScreen.querySelectorAll("div")[i].appendChild(document.createElement("p")).setAttribute("class", "car-info-text")
+            }
+            carInfoScreen.querySelectorAll(".car-info-text")[0].textContent = modelData.body_type
+            carInfoScreen.querySelectorAll(".car-info-icon")[0].setAttribute("class", "fa-solid fa-car-side")
+            carInfoScreen.querySelectorAll(".car-info-text")[1].textContent = `${modelData.doors} doors`
+            carInfoScreen.querySelectorAll(".car-info-icon")[0].setAttribute("class", "fa-solid fa-door-closed")
+            carInfoScreen.querySelectorAll(".car-info-text")[2].textContent = `${modelData.people} seats`
+            carInfoScreen.querySelectorAll(".car-info-icon")[0].setAttribute("class", "fa-solid fa-users")
+            carInfoScreen.querySelectorAll(".car-info-text")[3].textContent = modelData.fuel_type
+            carInfoScreen.querySelectorAll(".car-info-icon")[0].setAttribute("class", "fa-solid fa-gas-pump")
         })
     }
 
@@ -120,15 +143,27 @@ fetch('https://cardatabaseinfo.herokuapp.com/vehicles')
             div.appendChild(displayThumbnailImage)
         }
     }
-    searchBar.addEventListener("keyup", (e) =>{
-        const allBrands = carList.querySelectorAll("img")
-        for(let i = 0; i < allBrands.length; i++){
-            filteredMakes = allBrands[i].src.toUpperCase()
+    function searchMake(){
+            for(let i = 0; i < carList.querySelectorAll(".car-makes-list").length;i++){
+                let filteredMakes = carList.querySelectorAll(".car-makes-list")[i].querySelector("p").textContent
+                if(!filteredMakes.includes(searchBar.value.toUpperCase())){
+                    carList.querySelectorAll(".car-makes-list")[i].style.display = "none"
+                }else if(filteredMakes.includes(searchBar.value.toUpperCase())){
+                    carList.querySelectorAll(".car-makes-list")[i].style.display="flex"
+                }
+            }
+    }
+
+    function searchModel(){
+        for(let i = 0; i < modelList.querySelectorAll(".car-model-list").length;i++){
+            let filteredMakes = modelList.querySelectorAll(".car-model-list")[i].querySelector("p").textContent
             if(!filteredMakes.includes(searchBar.value.toUpperCase())){
-                allBrands[i].style.display="none"
-            } else if(filteredMakes.includes(searchBar.value.toUpperCase())){
-                allBrands[i].style.display="initial"
+                modelList.querySelectorAll(".car-model-list")[i].style.display = "none"
+            }else if(filteredMakes.includes(searchBar.value.toUpperCase())){
+                modelList.querySelectorAll(".car-model-list")[i].style.display="flex"
             }
         }
-    })
-  
+    }
+    function test(){
+        window.location = "/"
+    }

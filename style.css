@@ -3,7 +3,22 @@ body{
     padding: 0;
     box-sizing: border-box;
 }
+.container{
+    margin: 1vw;
+}
 
+nav{
+    margin: 5vh 0;
+}
+
+#main-navbar{
+    display: flex;
+    justify-content: space-between;
+}
+
+#logo{
+    width: 20vw;
+}
 
 #car-list{
     display: grid;
@@ -42,8 +57,6 @@ body{
 .car-makes-list:hover{
     cursor: pointer;
 }
-
-
 
 #model-list{
     display: grid;
@@ -89,7 +102,7 @@ body{
 }
 
 #features-list li{
-    padding: 2.53vh 2vw;
+    padding: 3.15vh 2vw;
     border-bottom: 1px solid black;
 }
 
@@ -112,4 +125,21 @@ body{
 .main-display img{
     width: 41vw;
     height: 60vh;
+}
+
+
+#car-info-list{
+    display: flex;
+}
+
+#car-info-screen div{
+    display: flex;
+    align-items: center;
+    padding: 0 1vw;
+    border-left: 1px solid black;
+}
+
+.car-info-text{
+    margin-left: 1vw;
+    text-transform: uppercase;
 }
